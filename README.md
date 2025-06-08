@@ -22,5 +22,17 @@
   - Băng thông lọc: 44Hz, giảm nhiễu tín hiệu từ cảm biến.
 - **Tần suất cập nhật cao**: Cập nhật dữ liệu cảm biến và gửi báo cáo chuột mỗi 10ms (~200Hz), đảm bảo phản hồi nhanh và mượt mà.
 - **Debug qua Serial**: Hiển thị trạng thái nút bấm, dữ liệu cảm biến và các thông tin kết nối Bluetooth qua cổng Serial (9600 baud) để hỗ trợ phát triển và kiểm tra.
+- **Ảnh chụp lắp mạch:**
+  ![Mach](https://github.com/user-attachments/assets/cc82df22-2cf1-4ea0-b7fb-6a1c13413e46)
+## TÁC GIẢ
+
+- **Tên nhóm:** THD
+- **Thành viên trong nhóm:**
+  |STT|Họ tên|MSSV|Công việc|
+  |--:|--|--|--|
+  |1|Hoàng Minh Đức|20215566||
+  |2|Trần Đức Thiện|20210815||
+  |3|Phạm Khánh Hưng|20210414||
+  
 
 
