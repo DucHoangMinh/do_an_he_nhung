@@ -30,9 +30,9 @@
 - **Thành viên trong nhóm:**
   |STT|Họ tên|MSSV|Công việc|
   |--:|--|--|--|
-  |1|Hoàng Minh Đức|20215566||
-  |2|Trần Đức Thiện|20210815||
-  |3|Phạm Khánh Hưng|20210414||
+  |1|Hoàng Minh Đức|20215566|Tối ưu hóa code xử lý dữ liệu cảm biến MPU6050 và bộ lọc EMA để đảm bảo chuyển động chuột mượt mà.|
+  |2|Trần Đức Thiện|20210815|Cấu hình và debug kết nối Bluetooth HID, đảm bảo tương thích với máy tính và phản hồi nhanh.|
+  |3|Phạm Khánh Hưng|20210414|Thiết kế và kiểm tra phần cứng, bao gồm kết nối ESP32, MPU6050 và các nút bấm trên GPIO 4, 5.|
   
 
 
