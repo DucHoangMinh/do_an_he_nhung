@@ -34,5 +34,85 @@
   |2|Trần Đức Thiện|20210815|Cấu hình và debug kết nối Bluetooth HID, đảm bảo tương thích với máy tính và phản hồi nhanh.|
   |3|Phạm Khánh Hưng|20210414|Thiết kế và kiểm tra phần cứng, bao gồm kết nối ESP32, MPU6050 và các nút bấm trên GPIO 4, 5.|
   
+## MÔI TRƯỜNG HOẠT ĐỘNG
 
+- **Module CPU/Dev kit:** ESP32
+- **Các kit, module phần cứng được sử dụng:**
+    - **ESP32 DevKitC:** Bao gồm vi điều khiển ESP32-WROOM-32, tích hợp module Bluetooth và Wi-Fi, các chân GPIO để kết nối ngoại vi.
+    - **MPU6050:** Module cảm biến gia tốc và con quay hồi chuyển 6 trục, cung cấp dữ liệu gia tốc (accelerometer) và con quay (gyroscope) để tính toán góc yaw, pitch, và roll.
+    - **Nút bấm (Push Buttons):** Hai nút bấm đơn giản dùng cho chức năng click trái và click phải của chuột.
+- **Phần mềm và Công cụ phát triển:**
+    - **Arduino IDE:** Môi trường phát triển tích hợp (IDE) để viết mã, biên dịch và nạp firmware cho ESP32.
+    - **Thư viện Adafruit MPU6050:** Thư viện hỗ trợ giao tiếp với module MPU6050 qua giao thức I2C, cung cấp API để đọc dữ liệu cảm biến.
+    - **Thư viện BleMouse:** Thư viện HID Bluetooth để biến ESP32 thành thiết bị chuột Bluetooth, hỗ trợ các chức năng di chuyển, click và scroll.
+    - **PlatformIO (tùy chọn):** Có thể được sử dụng thay thế Arduino IDE để quản lý dự án và thư viện.
+    - **Trình biên dịch ESP32 Arduino Core:** Cung cấp môi trường lập trình Arduino cho ESP32, tích hợp trong Arduino IDE.
 
+## SƠ ĐỒ KẾT NỐI (SCHEMATIC)
+
+Sơ đồ kết nối chi tiết giữa các chân của ESP32 và các module ngoại vi:
+
+| ESP32 Pin     | Module/Chức năng                              | Ghi chú                                                              |
+|---------------|----------------------------------------------|----------------------------------------------------------------------|
+| `SCL (GPIO 22)` | MPU6050 - Chân SCL                          | Kết nối với chân SCL của MPU6050 để giao tiếp I2C.                   |
+| `SDA (GPIO 21)` | MPU6050 - Chân SDA                          | Kết nối với chân SDA của MPU6050 để giao tiếp I2C.                   |
+| `3V3`         | MPU6050 - Chân cấp nguồn (VCC)              | Cấp nguồn hoạt động 3.3V cho module MPU6050.                        |
+| `GND`         | MPU6050 - Chân nối đất (GND)                | Kết nối chân GND của MPU6050 với GND chung của hệ thống.             |
+| `GPIO 4`      | Nút bấm - Click trái                        | Kết nối với nút bấm, sử dụng pull-up nội bộ, nhấn xuống GND (LOW).   |
+| `GPIO 5`      | Nút bấm - Click phải                        | Kết nối với nút bấm, sử dụng pull-up nội bộ, nhấn xuống GND (LOW).   |
+| `GND`         | Nút bấm - Chân nối đất (GND)                | Kết nối chân còn lại của cả hai nút bấm với GND chung của hệ thống.  |
+
+## ĐẶC TẢ HÀM
+/**
+ * @brief Hàm khởi tạo hệ thống.
+ * 
+ * - Khởi tạo Serial với baudrate 9600 để debug
+ * - Thiết lập kết nối I2C
+ * - Cấu hình MPU6050:
+ *   - Phạm vi gia tốc: ±2G
+ *   - Phạm vi gyro: ±250°/s
+ *   - Băng thông bộ lọc: 44Hz
+ * - Khởi tạo Bluetooth HID Mouse với tên "Balance Mouse"
+ * - Cấu hình chân nút bấm (GPIO 4 và 5) với chế độ INPUT_PULLUP
+ */
+
+void setup();
+
+/**
+ * @brief Hàm chính chạy trong vòng lặp vô hạn.
+ * 
+ * - Kiểm tra kết nối Bluetooth
+ * - Đọc dữ liệu từ cảm biến MPU6050 (gia tốc, gyro)
+ * - Tính toán góc nghiêng (pitch, roll) từ dữ liệu gia tốc
+ * - Tính giá trị yaw từ dữ liệu gyro
+ * - Áp dụng bộ lọc EMA để làm mượt dữ liệu góc
+ * - Kiểm tra trạng thái "nằm phẳng" của thiết bị
+ * - Ánh xạ góc nghiêng thành chuyển động chuột:
+ *   - Roll → Di chuyển trục X
+ *   - Pitch → Di chuyển trục Y
+ *   - Yaw → Cuộn (scroll)
+ * - Xử lý sự kiện nút bấm với cơ chế debounce
+ * - Gửi lệnh di chuyển chuột qua Bluetooth
+ * - Delay 10ms giữa các lần lặp
+ */
+
+void loop();
+
+/**
+ * @brief Áp dụng bộ lọc EMA (Exponential Moving Average) cho góc pitch và roll.
+ * @param pitch Góc pitch mới (độ)
+ * @param roll Góc roll mới (độ)
+ * 
+ * Công thức lọc:
+ * filtered = alpha * new_value + (1 - alpha) * old_value
+ * Với alpha = 0.3
+ * 
+ * Kết quả lọc được lưu vào biến toàn cục:
+ * - filteredPitch
+ * - filteredRoll
+ */
+
+void updateFilter(float pitch, float roll);
+## KẾT QUẢ
+
+https://github.com/user-attachments/assets/3bdd9d26-07f6-47c1-a557-f2ecee0b9478
