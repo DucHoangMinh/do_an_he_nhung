@@ -139,5 +139,5 @@ void loop() {
     bleMouse.move(mouse_dx, mouse_dy, scroll);
   }
   
-  delay(10); // Cập nhật mỗi 5ms (~200Hz)
+  delay(10); // Cập nhật mỗi 10ms (~200Hz)
 }
